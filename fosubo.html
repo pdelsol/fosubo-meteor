@@ -9,6 +9,7 @@
 		<p class="lead" style="display:inline;">FOSUBO!</p>
 		<strong>FO</strong>rget the <strong>SU</strong>gestion <strong>BO</strong>x
 		</div>
+  </div>
 	<div class="container">
 		{{> rateme}}
 	</div>
@@ -18,18 +19,20 @@
 	<div class="player">
 		<span class="name">{{employee.name}}</span>
 		<span class="score">{{rating}}</span>
+    <span class="feedback">{{feedback}}</span>
 	</div>
 </template>
 
 <template name="rateme">
 	<div class="row-fluid" style="text-align:center;">
 		<div class="span12">
-			{{#if submitted}}
+      {{#if r}}
 				<h1>Ratings</h1>
 				{{#each ratings}}
 					{{> rating}}
 				{{/each}}
-			{{else}}
+			{{/if}}
+      {{#if e}}
 				<h3>{{employee.name}}</h3>
 				<div style="margin-bottom:20px;">
 					<img src="/{{employee.pic}}" class="img-rounded">
@@ -45,8 +48,14 @@
 				</div>
 				<div style="margin-bottom:10px;">
 					<a id="submit" class="btn btn-large btn-primary">SEND</a>
-				</div>				
+				</div>
 			{{/if}}
+      {{#if w}}
+        WELCOME
+      {{/if}}
+      {{#if t}}
+        THANKS!
+      {{/if}}
 		</div>
 	</div>
 </template>

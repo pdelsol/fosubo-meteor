@@ -23,8 +23,17 @@ if (Meteor.isClient) {
 		}
 	});
 
-	Template.rateme.submitted = function () {
-		return Session.get("submitted");
+	Template.rateme.w = function () {
+    return Session.get("w");
+	}
+	Template.rateme.e = function () {
+    return Session.get("e");
+	}
+	Template.rateme.r = function () {
+    return Session.get("r");
+	}
+	Template.rateme.t = function () {
+    return Session.get("t");
 	}
 
 	Template.rateme.ratings = function () {
