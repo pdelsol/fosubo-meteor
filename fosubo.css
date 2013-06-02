@@ -9,6 +9,7 @@ body {
     -o-user-select: none;
     user-select: none;
     background-color: #C9E7F2;
+  background: url(welcome-02-04.png) no-repeat;
 }
 
 div.bigstars div.rateit-range
@@ -37,6 +38,11 @@ div.bigstars div.rateit-reset
 div.bigstars div.rateit-reset:hover
 {
     background: url(star-white32.png);
+}
+
+div#welcome
+{
+
 }
 
 .container{

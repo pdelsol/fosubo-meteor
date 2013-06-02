@@ -24,6 +24,19 @@ if (Meteor.isClient) {
 		}
 	});
 
+  Template.rateme.events({
+		'click a#request_call': function () {
+
+        // Esto es para saber donde hacer el redirect de vuelta en el PHP que hace la llamada
+        var current_url = document.location.href;
+        var back_to = "fosubo";
+        if (current_url.indexOf('localhost') !== -1) back_to = "localhost";
+
+        url = 'http://clicktocall.fosubo.com/clickfono.php?backto='+back_to+'&number='+$('#phonenumber')[0].value;
+        document.location.href=url;
+    }
+  });
+
 	Template.rateme.w = function () {
     return Session.get("w");
 	}
@@ -58,5 +71,28 @@ if (Meteor.isServer) {
 				Employees.insert({name: names[i], id: ids[i], pic: pics[i]});
 		}
 	});
+
+  /*
+  Meteor.methods({
+		fetchFromService: function(phonenumber) {
+			var url = 'http://clicktocall.fosubo.com/clickfono.php?number='+phonenumber;
+      var result = Meteor.http.get(url, {timeout:30000});
+      if(result.statusCode==200) {
+          var respJson = JSON.parse(result.content);
+          console.log("response received.");
+          //custom code
+          if(respJson.message.code == 0) { //IF OK
+              console.log('returning response');
+              return respJson;
+          } else {
+              throw new Meteor.Error(respJson.message.code, respJson.message.text);
+          }
+      } else {
+          console.log("Content issue: ", result.statusCode);
+          throw new Meteor.Error("");
+      }
+		}
+	});*/
+
 }
 
