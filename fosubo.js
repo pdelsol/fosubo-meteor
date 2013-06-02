@@ -3,6 +3,7 @@
 
 Players = new Meteor.Collection("players");
 Ratings = new Meteor.Collection("ratings");
+RatingsAverages = new Meteor.Collection("ratings_averages");
 Employees = new Meteor.Collection("employees");
 Alerts = new Meteor.Collection("alerts");
 
@@ -19,7 +20,26 @@ if (Meteor.isClient) {
 	Template.rateme.events({
 		'click a#submit': function () {
 			var employee = Employees.findOne({id: Session.get("employee_id")});
-			Ratings.insert({created: new Date(), employee: employee,rating: $('#ratingx')[0].value, feedback: $('#feedback')[0].value});
+			Ratings.insert({created: new Date(), employee: employee,rating: $('#ratingx')[0].value, feedback: parseFloat($('#feedback')[0].value).toFixed(2)});
+
+      console.log("Rating!");
+
+      console.log(employee.name);
+      var ratingaverage = RatingsAverages.findOne({name:employee.name});
+      if(typeof(ratingaverage) == 'undefined')
+        {
+          console.log("Current: " + $('#ratingx')[0].value);
+          ratingaverage = RatingsAverages.insert({name:employee.name, total:$('#ratingx')[0].value, num: 1, average: $('#ratingx')[0].value});
+        }
+      else
+        {
+          var newtotal = (parseFloat(ratingaverage.total)+parseFloat($('#ratingx')[0].value));
+          var newnum = (parseFloat(ratingaverage.num)+1);
+          var newaverage = parseFloat(newtotal/newnum).toFixed(2);
+          console.log("New: " + newaverage);
+          RatingsAverages.update(ratingaverage._id, {$set: {total:newtotal, num:newnum, average:newaverage}});
+        }
+
 			Session.set("e",false);
       Session.set("t",true);
 		}
@@ -62,7 +82,8 @@ if (Meteor.isClient) {
 	}
 
 	Template.rateme.ratings = function () {
-		return Ratings.find({}, {sort: {created: -1, name: 1}});
+		//return Ratings.find({}, {sort: {created: -1, name: 1}});
+    return RatingsAverages.find({}, {sort: {average: -1, name: 1}});
 	};
 
   Template.rateme.alerts = function () {
@@ -74,8 +95,6 @@ if (Meteor.isClient) {
   var query = Ratings.find({}, {sort: {rating: -1, name: 1}});
   var handle = query.observeChanges({
     added: function (id, rating) {
-      console.log("New feedback: " + rating.feedback);
-
       // Alertas a mano (no en DB)
       var alerts = Array('insulto', 'shit');
 
@@ -94,6 +113,7 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
 	//Employees.remove({name : {$ne : " "}});
   //Ratings.remove({name : {$ne : " "}});
+  //RatingsAverages.remove({name : {$ne : " "}});
 	Meteor.startup(function () {
 		if (Employees.find().count() === 0) {
 			var names = ["Nicolas Brenner",
