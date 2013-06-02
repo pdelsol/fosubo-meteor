@@ -20,7 +20,16 @@ if (Meteor.isClient) {
 	Template.rateme.events({
 		'click a#submit': function () {
 			var employee = Employees.findOne({id: Session.get("employee_id")});
-			Ratings.insert({created: new Date(), employee: employee,rating: $('#ratingx')[0].value, feedback: parseFloat($('#feedback')[0].value).toFixed(2)});
+
+			var temp = new Date();
+		    var dateStr = temp.getFullYear().toString() + '-' +
+		                  temp.getMonth().toString() + '-' +
+		                  temp.getDate().toString() +' ' +
+		                  temp.getHours().toString() + ':' +
+		                  temp.getMinutes().toString() + ':' +
+		                  temp.getSeconds().toString();
+
+			Ratings.insert({created2: temp,created: dateStr, employee: employee,rating: parseFloat($('#ratingx')[0].value).toFixed(2), feedback: $('#feedback')[0].value});
 
       console.log("Rating!");
 
@@ -81,9 +90,13 @@ if (Meteor.isClient) {
     return Session.get("a");
 	}
 
-	Template.rateme.ratings = function () {
+	Template.rateme.ratingaverages = function () {
 		//return Ratings.find({}, {sort: {created: -1, name: 1}});
     return RatingsAverages.find({}, {sort: {average: -1, name: 1}});
+	};
+
+	Template.rateme.ratings = function () {
+		return Ratings.find({}, {sort: {created2: -1, name: 1}});
 	};
 
   Template.rateme.alerts = function () {
@@ -112,17 +125,23 @@ if (Meteor.isClient) {
 // On server startup, create some players if the database is empty.
 if (Meteor.isServer) {
 	//Employees.remove({name : {$ne : " "}});
-  //Ratings.remove({name : {$ne : " "}});
-  //RatingsAverages.remove({name : {$ne : " "}});
+  	//Ratings.remove({name : {$ne : " "}});
+    //RatingsAverages.remove({name : {$ne : " "}});
 	Meteor.startup(function () {
 		if (Employees.find().count() === 0) {
 			var names = ["Nicolas Brenner",
 						 "Fabian Perez",
-						 "Patricio del Sol"];
-			var ids = ["1","2","3"];
+						 "Patricio del Sol",
+						 "Francisco Saéz",
+						 "Vicente Yarad",
+						 "Joaquín Saéz"];
+			var ids = ["1","2","3","4","5","6"];
 			var pics = ["557107_10101459959845573_741973235_n.jpg",
 						 "a5d8826dfeae92fb7c450bf84e800d07.jpg",
-						 "253803_10101349099750114_1164553438_n.jpg"];
+						 "253803_10101349099750114_1164553438_n.jpg",
+						 "fcosaez.jpg",
+						 "vicenteyarad.jpg",
+						 "joaquinsaez.jpg"];
 			for (var i = 0; i < names.length; i++)
 				Employees.insert({name: names[i], id: ids[i], pic: pics[i]});
 		}

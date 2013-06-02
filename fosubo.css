@@ -8,8 +8,21 @@ body {
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
-    background-color: #C9E7F2;
-  background: url(welcome_blue_textura.png) no-repeat;
+background-image: linear-gradient(right , rgb(18,3,128) 5%, rgb(2,15,163) 50%, rgb(18,3,128) 95%);
+background-image: -o-linear-gradient(right , rgb(18,3,128) 5%, rgb(2,15,163) 50%, rgb(18,3,128) 95%);
+background-image: -moz-linear-gradient(right , rgb(18,3,128) 5%, rgb(2,15,163) 50%, rgb(18,3,128) 95%);
+background-image: -webkit-linear-gradient(right , rgb(18,3,128) 5%, rgb(2,15,163) 50%, rgb(18,3,128) 95%);
+background-image: -ms-linear-gradient(right , rgb(18,3,128) 5%, rgb(2,15,163) 50%, rgb(18,3,128) 95%);
+
+background-image: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(0.05, rgb(18,3,128)),
+    color-stop(0.5, rgb(2,15,163)),
+    color-stop(0.95, rgb(18,3,128))
+);
+    color:white;
 }
 
 div.bigstars div.rateit-range
@@ -40,11 +53,18 @@ div.bigstars div.rateit-reset:hover
     background: url(star-white32.png);
 }
 
-div#welcome
-{
-
+h1{
+    padding-top: 10px;
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.3);
 }
 
-.container{
+#epic{
+    height: 180px;
+    width: 180px;
+    background: url(loading.gif) no-repeat center;
+    background-color: white;
+}
 
+#rankli{
+    
 }

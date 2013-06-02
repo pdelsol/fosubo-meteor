@@ -9,10 +9,19 @@
 	</div>
 </body>
 
-<template name="rating">
+<template name="ratingaverage">
 	<div class="player">
 		<span class="name">{{name}}</span>
-    <span class="score">{{average}}</span>
+    	<span class="score" style="margin-left:30px;">{{average}}</span>
+	</div>
+</template>
+
+<template name="rating">
+	<div class="player">
+		<span class="date">{{created}}</span>
+		<span class="name">{{employee.name}}</span>
+    	<span class="score">{{rating}}</span>
+    	<span class="score">{{feedback}}</span>
 	</div>
 </template>
 
@@ -26,15 +35,30 @@
 	<div class="row-fluid" style="text-align:center;">
 		<div class="span12">
       {{#if r}}
-				<h1>Ratings</h1>
-				{{#each ratings}}
-					{{> rating}}
-				{{/each}}
-			{{/if}}
+  			<h1>Employee Feedback</h1>
+			<br/><br/>
+			<h2>Rank</h2>
+			<ol style="width: 180px; margin-right:auto; margin-left:auto;">
+			{{#each ratingaverages}}
+				<li id="rankli">{{> ratingaverage}}</li>
+			{{/each}}
+			</ol>
+			<br/><br/>
+			<h2>Graph</h2>
+				<img src="/rankgraph.jpg"
+			<br/><br/>
+			<h2>Log</h2>
+			{{#each ratings}}
+				{{> rating}}
+			{{/each}}
+			<br/><br/>
+		<img src="/fosubo_logo_white.png"><br/>
+        	Forget the Suggestion Box
+	{{/if}}
       {{#if e}}
 				<h3>{{employee.name}}</h3>
 				<div style="margin-bottom:20px;">
-					<img src="/{{employee.pic}}" class="img-rounded">
+					<img src="/{{employee.pic}}" class="img-rounded" id="epic">
 				</div>
 				<h3>Rate Service</h3>
 				<div style="margin-bottom:20px;">
@@ -50,19 +74,30 @@
 				</div>
 			{{/if}}
       {{#if w}}
-        <div id="welcome">Bienvenido
-        </div>
+        
+        	<h1>Fosubo is a simple employee feedback management system.</h1>
+        	<br/><br/><br/>
+      <p class="lead">Start your free trial today.</p>
+       <input id="phonenumber" name="phonenumber" type="text" placeholder="Enter your Email Address" value="" />
+       <br/>
+		<a class="btn btn-large btn-primary">Create Account</a>
+		<br/><br/><br/><br/>
+		<img src="/fosubo_logo_white.png"><br/>
+        	Forget the Suggestion Box
       {{/if}}
       {{#if t}}
-      THANKS!<br />
+      <h1>Thank you!</h1><br/>
+      <br/>
+      <p class="lead">We would love to personally hear more about your experience.</p>
 
-      Would you like to get a call from a live agent? <br />
-
-      Enter your phone number and we'll call you right away: <input id="phonenumber" name="phonenumber" type="text" placeholder="69651140" value="" />
+       <input id="phonenumber" name="phonenumber" type="text" placeholder="Enter your Email Address" value="" />
 
       <div style="margin-bottom:10px;">
-					<a id="request_call" class="btn btn-large btn-primary">Call Me</a>
-			</div>
+		<a id="request_call" class="btn btn-large btn-primary">Contact Me</a>
+		</div>
+		<br/><br/><br/>
+		<img src="/fosubo_logo_white.png"><br/>
+        	Forget the Suggestion Box
       {{/if}}
       {{#if a}}
       <h1>Alerts</h1>
