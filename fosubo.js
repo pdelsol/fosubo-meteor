@@ -19,7 +19,8 @@ if (Meteor.isClient) {
 		'click a#submit': function () {
 			var employee = Employees.findOne({id: Session.get("employee_id")});
 			Ratings.insert({employee: employee,rating: $('#ratingx')[0].value, feedback: $('#feedback')[0].value});
-			Session.set("submitted",true);
+			Session.set("e",false);
+      Session.set("t",true);
 		}
 	});
 
