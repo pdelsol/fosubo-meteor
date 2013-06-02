@@ -4,6 +4,7 @@
 Players = new Meteor.Collection("players");
 Ratings = new Meteor.Collection("ratings");
 Employees = new Meteor.Collection("employees");
+Alerts = new Meteor.Collection("alerts");
 
 if (Meteor.isClient) {
 
@@ -21,6 +22,13 @@ if (Meteor.isClient) {
 			Ratings.insert({employee: employee,rating: $('#ratingx')[0].value, feedback: $('#feedback')[0].value});
 			Session.set("e",false);
       Session.set("t",true);
+		}
+	});
+
+  Template.rateme.events({
+		'click a#save_alert': function () {
+			Alerts.insert({name: $('#alert')[0].value});
+      Session.set("a",true);
 		}
 	});
 
@@ -49,10 +57,37 @@ if (Meteor.isClient) {
 	Template.rateme.t = function () {
     return Session.get("t");
 	}
+  Template.rateme.a = function () {
+    return Session.get("a");
+	}
 
 	Template.rateme.ratings = function () {
 		return Ratings.find({}, {sort: {rating: -1, name: 1}});
 	};
+
+  Template.rateme.alerts = function () {
+		return Alerts.find({}, {sort: {name: 1}});
+	};
+
+
+  // Observar cuando cambian los reviews para generar una alerta
+  var query = Ratings.find({}, {sort: {rating: -1, name: 1}});
+  var handle = query.observeChanges({
+    added: function (id, rating) {
+      console.log("New feedback: " + rating.feedback);
+
+      // Alertas a mano (no en DB)
+      var alerts = Array('insulto', 'shit');
+
+      for (i=0; i<alerts.length; ++i)
+        if (rating.feedback.indexOf(alerts[i]) !== -1) console.log('Feedback: ' + rating.feedback + '  matches alert: ' + alerts[i] + '!');
+
+    },
+    removed: function () {
+      console.log("Lost one.");
+    }
+  });
+
 }
 
 // On server startup, create some players if the database is empty.

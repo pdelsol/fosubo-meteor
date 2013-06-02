@@ -3,20 +3,44 @@ var TodosRouter = Backbone.Router.extend({
     "e/:employee_id": "main",
     "" : "welcome",
     "r" : "ranking",
-    "t" : "thanks"
+    "t" : "thanks",
+    "a" : "alerts"
   },
   main: function (employee_id) {
     Session.set("employee_id", employee_id);
      Session.set("e", true);
   },
   welcome: function () {
+    Session.set("w", false);
+    Session.set("r", false);
+    Session.set("t", false);
+    Session.set("a", false);
+
     Session.set("w", true);
   },
   ranking: function () {
+    Session.set("w", false);
+    Session.set("r", false);
+    Session.set("t", false);
+    Session.set("a", false);
+
     Session.set("r", true);
   },
   thanks: function () {
+    Session.set("w", false);
+    Session.set("r", false);
+    Session.set("t", false);
+    Session.set("a", false);
+
     Session.set("t", true);
+  },
+  alerts: function () {
+    Session.set("w", false);
+    Session.set("r", false);
+    Session.set("t", false);
+    Session.set("a", false);
+
+    Session.set("a", true);
   }
 });
 
