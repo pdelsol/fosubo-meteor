@@ -19,7 +19,7 @@ if (Meteor.isClient) {
 	Template.rateme.events({
 		'click a#submit': function () {
 			var employee = Employees.findOne({id: Session.get("employee_id")});
-			Ratings.insert({employee: employee,rating: $('#ratingx')[0].value, feedback: $('#feedback')[0].value});
+			Ratings.insert({created: new Date(), employee: employee,rating: $('#ratingx')[0].value, feedback: $('#feedback')[0].value});
 			Session.set("e",false);
       Session.set("t",true);
 		}
@@ -62,7 +62,7 @@ if (Meteor.isClient) {
 	}
 
 	Template.rateme.ratings = function () {
-		return Ratings.find({}, {sort: {rating: -1, name: 1}});
+		return Ratings.find({}, {sort: {created: -1, name: 1}});
 	};
 
   Template.rateme.alerts = function () {
@@ -92,7 +92,8 @@ if (Meteor.isClient) {
 
 // On server startup, create some players if the database is empty.
 if (Meteor.isServer) {
-	/*Employees.remove({name : {$ne : " "}})*/
+	//Employees.remove({name : {$ne : " "}});
+  //Ratings.remove({name : {$ne : " "}});
 	Meteor.startup(function () {
 		if (Employees.find().count() === 0) {
 			var names = ["Nicolas Brenner",
